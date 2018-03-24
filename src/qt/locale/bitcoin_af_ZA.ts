@@ -214,8 +214,8 @@
         <translation>&amp;Opsies</translation>
     </message>
     <message>
-        <source>Litecoin</source>
-        <translation>Litecoin</translation>
+        <source>Unifycoin</source>
+        <translation>Unifycoin</translation>
     </message>
     <message>
         <source>Wallet</source>
