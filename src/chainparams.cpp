@@ -120,8 +120,8 @@ public:
         assert(genesis.hashMerkleRoot == uint256S("0x214037fe78c284b2ee501e0c68d629126d394a4fa04f23f88699af72ceedcccd"));
 
         // Note that of those with the service bits flag, most only support a subset of possible options
-        vSeeds.push_back(CDNSSeedData("145.239.89.215", "145.239.89.215", true));
-        vSeeds.push_back(CDNSSeedData("158.69.212.99", "158.69.212.99", true));
+        vSeeds.push_back(CDNSSeedData("78.58.134.82", "78.58.134.82", true));
+        vSeeds.push_back(CDNSSeedData("73.9.179.45", "73.9.179.45", true));
         vSeeds.push_back(CDNSSeedData("node1.unifycoin.ovh", "node1.unifycoin.ovh"));
         vSeeds.push_back(CDNSSeedData("node2.unifycoin.ovh", "node2.unifycoin.ovh"));
         vSeeds.push_back(CDNSSeedData("node3.unifycoin.ovh", "node3.unifycoin.ovh"));
@@ -175,6 +175,7 @@ static CMainParams mainParams;
 class CTestNetParams : public CChainParams {
 public:
     CTestNetParams() {
+        /* by hms
         strNetworkID = "test";
         consensus.nSubsidyHalvingInterval = 840000;
         consensus.BIP34Height = 76;
@@ -252,7 +253,7 @@ public:
             8731,
             0.01
         };
-
+        */
     }
 };
 static CTestNetParams testNetParams;
@@ -263,6 +264,7 @@ static CTestNetParams testNetParams;
 class CRegTestParams : public CChainParams {
 public:
     CRegTestParams() {
+        /*
         strNetworkID = "regtest";
         consensus.nSubsidyHalvingInterval = 150;
         consensus.BIP34Height = 100000000; // BIP34 has not activated on regtest (far in the future so block v1 are not rejected in tests)
@@ -329,6 +331,7 @@ public:
         base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,239);
         base58Prefixes[EXT_PUBLIC_KEY] = boost::assign::list_of(0x04)(0x35)(0x87)(0xCF).convert_to_container<std::vector<unsigned char> >();
         base58Prefixes[EXT_SECRET_KEY] = boost::assign::list_of(0x04)(0x35)(0x83)(0x94).convert_to_container<std::vector<unsigned char> >();
+        */
     }
 
     void UpdateBIP9Parameters(Consensus::DeploymentPos d, int64_t nStartTime, int64_t nTimeout)
