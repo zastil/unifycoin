@@ -63,6 +63,11 @@ struct Params {
     int64_t DifficultyAdjustmentInterval() const { return nPowTargetTimespan / nPowTargetSpacing; }
     uint256 nMinimumChainWork;
     uint256 defaultAssumeValid;
+    /**
+     * by hms 
+     * New added section for Unifycoin 
+    */
+    int LAST_POW_BLOCK;
 };
 } // namespace Consensus
 
