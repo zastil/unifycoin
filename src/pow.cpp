@@ -10,12 +10,21 @@
 #include "primitives/block.h"
 #include "uint256.h"
 #include "util.h"
-/*
-unsigned int GetPoSDifficulty(const CBlockIndex* pindexLast, const CBlockHeader *pblock, const Consensus::Params& params)
+
+unsigned int GetPoSDifficulty(const CBlockIndex* pindexLast, const CBlockHeader* pblock, const Consensus::Params& params)
 {
-    
+    unsigned int nProofOfWorkLimit = UintToArith256(params.powLimit).GetCompact();
+    unsigned int nPowTargetSpacing = 5 * 60;
+    if (pindexLast->nHeight + 1 >= params.LAST_POW_BLOCK) {
+        nPowTargetSpacing = 1 * 60;
+    } else {
+        nPowTargetSpacing = 5 * 60;
+    }
+    // by hms
+    const CBlockIndex* pindexPrev = GetLastBlockIndex(pindexLast, true);
+    const CBlockIndex* pindexPrevPrev = GetLastBlockIndex(pindexPrev->pprev, true);
 }
-*/
+
 
 unsigned int DarkGravityWave(const CBlockIndex* pindexLast, const CBlockHeader* pblock, const Consensus::Params& params)
 {
@@ -28,6 +37,7 @@ unsigned int DarkGravityWave(const CBlockIndex* pindexLast, const CBlockHeader* 
     int64_t CountBlocks = 0;
     arith_uint256 PastDifficultyAverage;
     arith_uint256 PastDifficultyAveragePrev;
+
     unsigned int nProofOfWorkLimit = UintToArith256(params.powLimit).GetCompact();
 
     if (BlockLastSolved == NULL || BlockLastSolved->nHeight == 0 || BlockLastSolved->nHeight < PastBlocksMin) {
@@ -44,7 +54,7 @@ unsigned int DarkGravityWave(const CBlockIndex* pindexLast, const CBlockHeader* 
             if (CountBlocks == 1) {
                 PastDifficultyAverage.SetCompact(BlockReading->nBits);
             } else {
-                PastDifficultyAverage = ((PastDifficultyAveragePrev * CountBlocks) + (UintToArith256(BlockReading->nBits))) / (CountBlocks + 1);
+                PastDifficultyAverage = ((PastDifficultyAveragePrev * CountBlocks) + (arith_uint256().SetCompact(BlockReading->nBits))) / (CountBlocks + 1);
             }
             PastDifficultyAveragePrev = PastDifficultyAverage;
         }
@@ -63,20 +73,20 @@ unsigned int DarkGravityWave(const CBlockIndex* pindexLast, const CBlockHeader* 
     }
 
     arith_uint256 bnNew(PastDifficultyAverage);
-    
+
     int64_t _nTargetTimespan = CountBlocks * params.nPowTargetSpacing;
     const arith_uint256 bnPowLimit = UintToArith256(params.powLimit);
 
-    if (nActualTimespan < _nTargetTimespan/2)
-        nActualTimespan = _nTargetTimespan/2;
-    if (nActualTimespan > _nTargetTimespan*2)
-        nActualTimespan = _nTargetTimespan*2;
+    if (nActualTimespan < _nTargetTimespan / 2)
+        nActualTimespan = _nTargetTimespan / 2;
+    if (nActualTimespan > _nTargetTimespan * 2)
+        nActualTimespan = _nTargetTimespan * 2;
 
     // Retarget
     bnNew *= nActualTimespan;
     bnNew /= _nTargetTimespan;
 
-    if (bnNew > bnPowLimit){
+    if (bnNew > bnPowLimit) {
         bnNew = bnPowLimit;
     }
 
@@ -84,6 +94,19 @@ unsigned int DarkGravityWave(const CBlockIndex* pindexLast, const CBlockHeader* 
 }
 
 unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHeader* pblock, const Consensus::Params& params)
+{
+    if (pindexLast->nHeight >= params.LAST_POW_BLOCK) {
+        return GetPoSDifficulty(pindexLast, pblock, params);
+    }
+
+    if (pindexLast->nHeight > 2211) {
+        return DarkGravityWave(pindexLast, pblock, params);
+    }
+
+    return GetNextWorkRequired_V1(pindexLast, pblock, params);
+}
+
+unsigned int GetNextWorkRequired_V1(const CBlockIndex* pindexLast, const CBlockHeader* pblock, const Consensus::Params& params)
 {
     unsigned int nProofOfWorkLimit = UintToArith256(params.powLimit).GetCompact();
 
