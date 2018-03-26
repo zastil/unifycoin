@@ -120,11 +120,11 @@ public:
         assert(genesis.hashMerkleRoot == uint256S("0x214037fe78c284b2ee501e0c68d629126d394a4fa04f23f88699af72ceedcccd"));
 
         // Note that of those with the service bits flag, most only support a subset of possible options
-        vSeeds.push_back(CDNSSeedData("78.58.134.82", "78.58.134.82", true));
-        vSeeds.push_back(CDNSSeedData("73.9.179.45", "73.9.179.45", true));
-        vSeeds.push_back(CDNSSeedData("node1.unifycoin.ovh", "node1.unifycoin.ovh"));
-        vSeeds.push_back(CDNSSeedData("node2.unifycoin.ovh", "node2.unifycoin.ovh"));
-        vSeeds.push_back(CDNSSeedData("node3.unifycoin.ovh", "node3.unifycoin.ovh"));
+        vSeeds.push_back(CDNSSeedData("78.58.134.82", "78.58.134.82"));
+        vSeeds.push_back(CDNSSeedData("73.9.179.45", "73.9.179.45"));
+        // vSeeds.push_back(CDNSSeedData("node1.unifycoin.ovh", "node1.unifycoin.ovh"));
+        // vSeeds.push_back(CDNSSeedData("node2.unifycoin.ovh", "node2.unifycoin.ovh"));
+        // vSeeds.push_back(CDNSSeedData("node3.unifycoin.ovh", "node3.unifycoin.ovh"));
         
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,68);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,5);

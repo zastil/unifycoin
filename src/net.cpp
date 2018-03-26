@@ -1579,6 +1579,7 @@ void CConnman::ThreadDNSAddressSeed()
     LogPrintf("Loading addresses from DNS seeds (could take a while)\n");
 
     BOOST_FOREACH(const CDNSSeedData &seed, vSeeds) {
+        // LogPrintf(">>>HOOK: seed.name = %s, seed.host = %s\n", seed.name, seed.host);
         if (interruptNet) {
             return;
         }
@@ -1592,6 +1593,7 @@ void CConnman::ThreadDNSAddressSeed()
             {
                 BOOST_FOREACH(const CNetAddr& ip, vIPs)
                 {
+                    // LogPrintf(">>>HOOK: IP = %s, %s\n", ip.ToString(), ip.ToStringIP());
                     int nOneDay = 24*3600;
                     CAddress addr = CAddress(CService(ip, Params().GetDefaultPort()), requiredServiceBits);
                     addr.nTime = GetTime() - 3*nOneDay - GetRand(4*nOneDay); // use a random age between 3 and 7 days old
